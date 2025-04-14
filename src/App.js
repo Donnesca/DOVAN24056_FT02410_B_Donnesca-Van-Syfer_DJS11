@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ShowPreview from "./components/ShowPreview"; // Import the new component
+import ShowDetails from "./components/ShowDetails";
 
 function App() {
   const [shows, setShows] = useState([]);
@@ -16,7 +19,10 @@ function App() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setShows(data);
+        const sortedShows = data.sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
+        setShows(sortedShows);
       } catch (error) {
         console.error("Error fetching shows:", error);
         setError(error.message);
@@ -37,14 +43,25 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Available Podcasts</h1>
-      <ul>
-        {shows.map((show) => (
-          <ShowPreview key={show.id} show={show} />
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <div>
+        <h1>Available Podcasts</h1>
+        <ul>
+          {shows.map((show) => (
+            <li key={show.id}>
+              <Link to={`/show/${show.id}`}>
+                <ShowPreview show={show} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Routes>
+          <Route path="/show/:id" element={<ShowDetails />} />
+          <Route path="/" element={null} />{" "}
+          {/* This is a placeholder for the main list view */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
