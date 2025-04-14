@@ -19,9 +19,7 @@ function App() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        const sortedShows = data.sort((a, b) => {
-          return a.title.localeCompare(b.title);
-        });
+        const sortedShows = data.sort((a, b) => a.title.localeCompare(b.title));
         setShows(sortedShows);
       } catch (error) {
         console.error("Error fetching shows:", error);
@@ -35,34 +33,36 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading podcasts...</div>;
+    return <div className="loading">Loading podcasts...</div>;
   }
 
   if (error) {
-    return <div>Error loading podcasts: {error}</div>;
+    return <div className="error">Error loading podcasts: {error}</div>;
   }
 
   return (
     <Router>
-      <div>
+      <div className="container">
         <h1>Available Podcasts</h1>
-        <ul>
-          {shows.map((show) => (
-            <li key={show.id}>
-              <Link to={`/show/${show.id}`}>
-                <ShowPreview show={show} />
-              </Link>
-            </li>
-          ))}
-        </ul>
         <Routes>
+          <Route
+            path="/"
+            element={
+              <ul>
+                {shows.map((show) => (
+                  <li key={show.id}>
+                    <Link to={`/show/${show.id}`}>
+                      <ShowPreview show={show} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            }
+          />
           <Route path="/show/:id" element={<ShowDetails />} />
-          <Route path="/" element={null} />{" "}
-          {/* This is a placeholder for the main list view */}
         </Routes>
       </div>
     </Router>
   );
 }
-
 export default App;

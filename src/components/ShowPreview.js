@@ -1,7 +1,7 @@
 import React from "react";
 
 function ShowPreview({ show }) {
-  return <li>{show.title}</li>;
+  return <div>{show.title}</div>;
 }
 
 export default ShowPreview;
