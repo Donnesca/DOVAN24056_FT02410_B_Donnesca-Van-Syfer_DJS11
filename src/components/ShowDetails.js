@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import Modal from "../components/Modal.js";
 
 function ShowDetails() {
   const { id } = useParams();
@@ -7,6 +8,8 @@ function ShowDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedSeason, setSelectedSeason] = useState(null);
+  const [isEpisodesModalOpen, setIsEpisodesModalOpen] = useState(false);
+  const [selectedSeasonEpisodes, setSelectedSeasonEpisodes] = useState([]);
 
   useEffect(() => {
     const fetchShowDetails = async () => {
@@ -34,6 +37,14 @@ function ShowDetails() {
 
   const handleSeasonClick = (season) => {
     setSelectedSeason(season);
+    setSelectedSeasonEpisodes(season.episodes);
+    setIsEpisodesModalOpen(true);
+  };
+
+  const closeEpisodesModal = () => {
+    setIsEpisodesModalOpen(false);
+    setSelectedSeason(null);
+    setSelectedSeasonEpisodes([]);
   };
 
   if (loading) {
@@ -54,7 +65,7 @@ function ShowDetails() {
       <h2>{show.title}</h2>
       <p>{show.description}</p>
 
-      {show.seasons && show.seasons.length > 0 ? (
+      {show?.seasons?.length > 0 ? (
         <div>
           <h3>Seasons</h3>
           <ul>
@@ -70,30 +81,57 @@ function ShowDetails() {
                       : "transparent",
                 }}
               >
-                {" "}
                 {season.title}
               </li>
             ))}
           </ul>
-
-          {selectedSeason &&
-            selectedSeason.episodes &&
-            selectedSeason.episodes.length > 0 && (
-              <div>
-                <h4>Episodes - {selectedSeason.title}</h4>
-                <ul>
-                  {selectedSeason.episodes.map((episode) => (
-                    <li key={episode.id}>{episode.title}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
         </div>
       ) : (
         <p>No seasons available for this show.</p>
       )}
+
+      <Modal isOpen={isEpisodesModalOpen} onClose={closeEpisodesModal}>
+        {show && show.seasons && show.seasons.length > 0 && (
+          <div>
+            <h4>Select Season:</h4>
+            <select
+              value={selectedSeason?.id?.toString() || ""}
+              onChange={(event) => {
+                const seasonId = parseInt(event.target.value, 10);
+                const selected = show.seasons.find((s) => s.id === seasonId);
+
+                setSelectedSeason(selected);
+                setSelectedSeasonEpisodes(selected?.episodes || []);
+              }}
+            >
+              <option value="" disabled>
+                Select a season
+              </option>
+              {show.seasons.map((season) => (
+                <option key={season.id} value={season.id}>
+                  {season.title}
+                </option>
+              ))}
+            </select>
+
+            {selectedSeason && (
+              <div>
+                <h5>Episodes - {selectedSeason.title}</h5>
+                {selectedSeasonEpisodes && selectedSeasonEpisodes.length > 0 ? (
+                  <ul>
+                    {selectedSeasonEpisodes.map((episode) => (
+                      <li key={episode.id}>{episode.title}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No episodes in this season.</p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }
-
 export default ShowDetails;
