@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 function Favorites() {
   const [favoriteEpisodes, setFavoriteEpisodes] = useState([]);
@@ -7,56 +7,74 @@ function Favorites() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchFavoriteEpisodes = async () => {
+    const fetchAndGroupFavorites = async () => {
       setLoading(true);
       setError(null);
-      const favoriteKeys = Object.keys(localStorage).filter((key) =>
-        key.startsWith("favorite-show-")
+      const favoriteKeys = Object.keys(localStorage).filter(
+        (key) =>
+          key.startsWith("favorite-show-") &&
+          localStorage.getItem(key) === "true"
       );
-      const favoriteEpisodeDetails = [];
+      const allFavoriteDetails = [];
 
       for (const key of favoriteKeys) {
-        if (localStorage.getItem(key) === "true") {
-          const parts = key.split("-");
-          const showId = parts[2];
-          const episodeId = parts[4];
+        const parts = key.split("-");
+        const showId = parts[2];
+        const episodeId = parts[4];
 
-          try {
-            const response = await fetch(
-              `https://podcast-api.netlify.app/id/${showId}`
-            );
-            if (!response.ok) {
-              console.warn(
-                `Failed to fetch show ${showId}: ${response.status}`
-              );
-              continue;
-            }
+        try {
+          const response = await fetch(
+            `https://podcast-api.netlify.app/id/${showId}`
+          );
+          if (response.ok) {
             const showData = await response.json();
-
             showData.seasons.forEach((season) => {
               const foundEpisode =
                 season.episodes &&
                 season.episodes.find((ep) => ep.id === episodeId);
               if (foundEpisode) {
-                favoriteEpisodeDetails.push({
+                allFavoriteDetails.push({
                   show: showData,
                   season,
                   episode: foundEpisode,
                 });
               }
             });
-          } catch (error) {
-            console.error(`Error fetching show ${showId}:`, error);
-            setError(error.message);
           }
+        } catch (error) {
+          console.error(`Error fetching show ${showId}:`, error);
+          setError(error.message);
         }
       }
 
-      setFavoriteEpisodes(favoriteEpisodeDetails);
+      // Sort favorites by show title then season title
+      allFavoriteDetails.sort((a, b) => {
+        if (a.show.title < b.show.title) return -1;
+        if (a.show.title > b.show.title) return 1;
+        if (a.season.title < b.season.title) return -1;
+        if (a.season.title > b.season.title) return 1;
+        return 0;
+      });
+
+      // Group favorites
+      const groupedFavorites = {};
+      allFavoriteDetails.forEach((fav) => {
+        const showTitle = fav.show.title;
+        const seasonTitle = fav.season.title;
+        if (!groupedFavorites[showTitle]) {
+          groupedFavorites[showTitle] = {};
+        }
+        if (!groupedFavorites[showTitle][seasonTitle]) {
+          groupedFavorites[showTitle][seasonTitle] = [];
+        }
+        groupedFavorites[showTitle][seasonTitle].push(fav.episode);
+      });
+
+      setFavoriteEpisodes(groupedFavorites);
       setLoading(false);
     };
 
-    fetchFavoriteEpisodes();
+    fetchAndGroupFavorites();
   }, []);
 
   if (loading) {
@@ -69,26 +87,38 @@ function Favorites() {
     );
   }
 
-  if (favoriteEpisodes.length === 0) {
+  if (Object.keys(favoriteEpisodes).length === 0) {
     return <div>No favorite episodes yet.</div>;
   }
 
   return (
     <div className="favorites">
       <h2>Your Favorite Episodes</h2>
-      <ul>
-        {favoriteEpisodes.map((fav) => (
-          <li key={`${fav.show.id}-${fav.season.id}-${fav.episode.id}`}>
-            <Link to={`/show/${fav.show.id}`}>
-              {fav.show.title} - Season {fav.season.title} - Episode{" "}
-              {fav.episode.title}
-            </Link>
-            <button onClick={() => console.log("Play", fav.episode.file)}>
-              Play
-            </button>
-          </li>
-        ))}
-      </ul>
+      {Object.keys(favoriteEpisodes).map((showTitle) => (
+        <div key={showTitle} className="show-group">
+          <h3>{showTitle}</h3>
+          {Object.keys(favoriteEpisodes[showTitle]).map((seasonTitle) => (
+            <div key={seasonTitle} className="season-group">
+              <h4>Season {seasonTitle}</h4>
+              <ul>
+                {favoriteEpisodes[showTitle][seasonTitle].map((episode) => (
+                  <li key={episode.id}>
+                    {episode.title}
+                    <button
+                      onClick={() =>
+                        /* Implement play */ console.log("Play", episode.file)
+                      }
+                    >
+                      Play
+                    </button>
+                    {/* Add remove from favorites button if needed */}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
