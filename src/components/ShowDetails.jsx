@@ -13,6 +13,7 @@ function ShowDetails() {
   const [currentAudioUrl, setCurrentAudioUrl] = useState(null);
   const [playingEpisodeTitle, setPlayingEpisodeTitle] = useState(null);
   const audioRef = useRef(null);
+  const [, forceUpdate] = useState({});
 
   const handlePlayAudio = (audioUrl, episodeTitle) => {
     setCurrentAudioUrl(audioUrl);
@@ -62,7 +63,11 @@ function ShowDetails() {
   };
 
   if (loading) {
-    return <div className="loading">Loading show details...</div>;
+    return (
+      <div className="loading">
+        <div className="loading-spinner"></div>Loading show details...
+      </div>
+    );
   }
 
   if (error) {
@@ -152,18 +157,42 @@ function ShowDetails() {
             </div>
             {selectedSeason.episodes?.length > 0 ? (
               <ul>
-                {selectedSeason.episodes.map((episode, i) => (
-                  <li key={episode.id || `ep-${i}`}>
-                    {episode.title}
-                    <button
-                      onClick={() =>
-                        handlePlayAudio(episode.file, episode.title)
-                      }
-                    >
-                      Play
-                    </button>
-                  </li>
-                ))}
+                {selectedSeason.episodes.map((episode, i) => {
+                  const isFavorite =
+                    localStorage.getItem(
+                      `favorite-show-${show.id}-season-${selectedSeason.id}-episode-${episode.id}`
+                    ) === "true";
+
+                  const handleFavoriteToggle = () => {
+                    const key = `favorite-show-${show.id}-season-${selectedSeason.id}-episode-${episode.id}`;
+                    const isCurrentlyFavorite =
+                      localStorage.getItem(key) === "true";
+                    const newFavoriteStatus = !isCurrentlyFavorite;
+                    localStorage.setItem(key, newFavoriteStatus);
+                    forceUpdate();
+                  };
+                  return (
+                    <li key={episode.id || `ep-${i}`}>
+                      {episode.title}
+                      <button
+                        onClick={() =>
+                          handlePlayAudio(episode.file, episode.title)
+                        }
+                      >
+                        Play
+                      </button>
+                      <button
+                        onClick={handleFavoriteToggle}
+                        style={{
+                          marginLeft: "10px",
+                          color: isFavorite ? "gold" : "grey",
+                        }}
+                      >
+                        {isFavorite ? "★ Favorite" : "☆ Favorite"}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             ) : (
               <p>No episodes in this season.</p>

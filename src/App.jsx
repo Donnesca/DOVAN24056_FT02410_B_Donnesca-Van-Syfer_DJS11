@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ShowPreview from "./components/ShowPreview";
 import ShowDetails from "./components/ShowDetails";
+import Favorites from "./components/Favorites";
 
 function App() {
   const [shows, setShows] = useState([]);
@@ -66,7 +67,11 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div className="loading">Loading podcasts...</div>;
+    return (
+      <div className="loading">
+        <div className="loading-spinner"></div>Loading podcasts...
+      </div>
+    );
   }
 
   if (error) {
@@ -77,6 +82,10 @@ function App() {
     <Router>
       <div className="container">
         <h1>Available Podcasts</h1>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/favorites">Favorites</Link>
+        </nav>
         <Routes>
           <Route
             path="/"
@@ -93,6 +102,7 @@ function App() {
             }
           />
           <Route path="/show/:id" element={<ShowDetails />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </div>
     </Router>
