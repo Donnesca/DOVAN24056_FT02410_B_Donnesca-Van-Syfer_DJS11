@@ -25,8 +25,8 @@ function ShowDetails() {
 
   useEffect(() => {
     const fetchShowDetails = async () => {
-      // setLoading(true);
-      //  setError(null);
+      setLoading(true);
+      setError(null);
       try {
         const response = await fetch(
           `https://podcast-api.netlify.app/id/${id}`
@@ -45,7 +45,7 @@ function ShowDetails() {
     };
 
     fetchShowDetails();
-  }, [id]); // Re-run effect when the id changes
+  }, [id]);
 
   const handleSeasonClick = (season) => {
     const index = show.seasons.findIndex((s) => s.id === season.id);
@@ -95,6 +95,19 @@ function ShowDetails() {
                       : "transparent",
                 }}
               >
+                {season.image && (
+                  <img
+                    src={season.image}
+                    alt={season.title}
+                    width="100"
+                    height="75"
+                    style={{
+                      objectFit: "cover",
+                      marginRight: "10px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                )}
                 {season.title}
               </li>
             ))}
@@ -107,7 +120,10 @@ function ShowDetails() {
       <Modal isOpen={isEpisodesModalOpen} onClose={closeEpisodesModal}>
         {selectedSeason && (
           <div>
-            <h4>{selectedSeason.title} - Episodes</h4>
+            <h4>
+              {selectedSeason.title} - Episodes (
+              {selectedSeason.episodes ? selectedSeason.episodes.length : 0})
+            </h4>
             <div style={{ marginBottom: "1rem" }}>
               <button
                 onClick={() => {

@@ -123,21 +123,20 @@ a:hover {
 }
 
 .audio-player-container {
-  position: fixed; /* Or absolute, depending on the desired behavior */
+  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: #f0f0f0; /* Optional background */
+  background-color: #f0f0f0;
   padding: 10px;
-  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
-  z-index: 1000; /* Ensure it's above other content */
+  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .audio-player-container audio {
-  width: 100%; /* Make the controls span the width */
+  width: 100%;
 }
 
 .playing-episode {
-  background-color: #e0f7fa; /* A light blue color */
-  /* Add any other desired styles */
+  background-color: #e0f7fa;
 }
