@@ -11,10 +11,12 @@ function ShowDetails() {
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [isEpisodesModalOpen, setIsEpisodesModalOpen] = useState(false);
   const [currentAudioUrl, setCurrentAudioUrl] = useState(null);
+  const [playingEpisodeTitle, setPlayingEpisodeTitle] = useState(null);
   const audioRef = useRef(null);
 
-  const handlePlayAudio = (audioUrl) => {
+  const handlePlayAudio = (audioUrl, episodeTitle) => {
     setCurrentAudioUrl(audioUrl);
+    setPlayingEpisodeTitle(episodeTitle);
     if (audioRef.current) {
       audioRef.current.load();
       audioRef.current.play();
@@ -137,7 +139,11 @@ function ShowDetails() {
                 {selectedSeason.episodes.map((episode, i) => (
                   <li key={episode.id || `ep-${i}`}>
                     {episode.title}
-                    <button onClick={() => handlePlayAudio(episode.file)}>
+                    <button
+                      onClick={() =>
+                        handlePlayAudio(episode.file, episode.title)
+                      }
+                    >
                       Play
                     </button>
                   </li>
@@ -151,6 +157,9 @@ function ShowDetails() {
       </Modal>
       {currentAudioUrl && (
         <div className="audio-player-container">
+          {playingEpisodeTitle && (
+            <p className="playing-title">Playing: {playingEpisodeTitle}</p>
+          )}
           <audio controls src={currentAudioUrl} autoPlay ref={audioRef} />
         </div>
       )}
