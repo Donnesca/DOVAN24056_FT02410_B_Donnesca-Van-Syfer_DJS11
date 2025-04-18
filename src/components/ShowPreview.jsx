@@ -13,8 +13,8 @@ function ShowPreview({ show }) {
         />
       )}
       <h3>{show.title}</h3>
-      {show.seasons !== undefined && (
-        <p className="seasons">Seasons: {show.seasons}</p>
+      {Array.isArray(show.seasons) && (
+        <p className="seasons">Seasons: {show.seasons.length}</p>
       )}
       {show.updated && <p className="updated">Last updated: {show.updated}</p>}
       {show.genreTitles && show.genreTitles.length > 0 && (

@@ -24,6 +24,22 @@ function ShowDetails() {
     }
   };
 
+  const handleFavoriteToggle = (episode) => {
+    if (!show || !selectedSeason) return;
+    const key = `favorite-show-${show.id}-season-${selectedSeason.id}-episode-${episode.id}`;
+    const isCurrentlyFavorite = localStorage.getItem(key) === "true";
+    const newFavoriteStatus = !isCurrentlyFavorite;
+    localStorage.setItem(key, newFavoriteStatus);
+
+    if (newFavoriteStatus) {
+      const timestamp = new Date().toLocaleString();
+      localStorage.setItem(`${key}-timestamp`, timestamp);
+    } else {
+      localStorage.removeItem(`${key}-timestamp`);
+    }
+    forceUpdate();
+  };
+
   useEffect(() => {
     const fetchShowDetails = async () => {
       setLoading(true);
@@ -126,7 +142,7 @@ function ShowDetails() {
         {selectedSeason && (
           <div>
             <h4>
-              {selectedSeason.title} - Episodes (
+              {show.seasons[currentSeasonIndex]?.title} - Episodes (
               {selectedSeason.episodes ? selectedSeason.episodes.length : 0})
             </h4>
             <div style={{ marginBottom: "1rem" }}>
@@ -163,14 +179,6 @@ function ShowDetails() {
                       `favorite-show-${show.id}-season-${selectedSeason.id}-episode-${episode.id}`
                     ) === "true";
 
-                  const handleFavoriteToggle = () => {
-                    const key = `favorite-show-${show.id}-season-${selectedSeason.id}-episode-${episode.id}`;
-                    const isCurrentlyFavorite =
-                      localStorage.getItem(key) === "true";
-                    const newFavoriteStatus = !isCurrentlyFavorite;
-                    localStorage.setItem(key, newFavoriteStatus);
-                    forceUpdate();
-                  };
                   return (
                     <li key={episode.id || `ep-${i}`}>
                       {episode.title}
@@ -182,7 +190,7 @@ function ShowDetails() {
                         Play
                       </button>
                       <button
-                        onClick={handleFavoriteToggle}
+                        onClick={() => handleFavoriteToggle(episode)}
                         style={{
                           marginLeft: "10px",
                           color: isFavorite ? "gold" : "grey",
