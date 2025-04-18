@@ -1,38 +1,52 @@
+/* Style for the modal overlay, which covers the entire viewport */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  position: fixed; /* Stay fixed in the viewport even when scrolling */
+  top: 0; /* Align to the top of the viewport */
+  left: 0; /* Align to the left of the viewport */
+  width: 100%; /* Occupy the full width of the viewport */
+  height: 100%; /* Occupy the full height of the viewport */
+  background-color: rgba(
+    235,
+    218,
+    218,
+    0.5
+  ); /* Semi-transparent black background to dim the content behind */
+  display: flex; /* Use flexbox for centering the modal content */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  z-index: 1000; /* Ensure the modal is on top of other elements */
 }
 
+/* Style for the main content area of the modal */
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 80%;
-  max-height: 80%;
-  overflow-y: auto;
-  position: relative;
+  background-color: rgba(
+    247,
+    101,
+    101,
+    0.806
+  ); /* White background for the modal content */
+  padding: 20px; /* Add some padding around the content */
+  border-radius: 8px; /* Apply rounded corners for a softer look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
+  max-width: 80%; /* Limit the maximum width of the modal to 80% of the viewport */
+  max-height: 80%; /* Limit the maximum height of the modal to 80% of the viewport */
+  overflow-y: auto; /* Enable vertical scrolling if the content exceeds the maximum height */
+  position: relative; /* Needed for positioning the close button absolutely within this container */
 }
 
+/* Style for the button to close the modal */
 .modal-close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: #777;
+  position: absolute; /* Position the button relative to the nearest positioned ancestor (modal-content) */
+  top: 10px; /* Position the button 10px from the top of the modal content */
+  right: 10px; /* Position the button 10px from the right of the modal content */
+  background: none; /* Remove the default background of the button */
+  border: none; /* Remove the default border of the button */
+  font-size: 16px; /* Set the font size of the close button text */
+  cursor: pointer; /* Change the cursor to a pointer on hover to indicate it's clickable */
+  color: #777; /* Set the default color of the close button text */
 }
 
+/* Style for the close button on hover */
 .modal-close-button:hover {
-  color: #333;
+  color: #333; /* Darken the color of the close button text on hover for better visibility */
 }

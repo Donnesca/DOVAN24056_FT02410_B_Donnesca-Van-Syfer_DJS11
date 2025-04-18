@@ -1,0 +1,43 @@
+/* Container for the show preview, using flexbox to align items */
+.previewContainer {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text within the container */
+  margin-bottom: 30px; /* Add some space below each preview */
+  width: 120%; /* Set a slightly wider width than its parent, might need adjustment based on layout */
+  overflow: hidden; /* Hide any content that overflows the container */
+}
+
+/* Style for the cover art image */
+.coverArt {
+  width: 100%; /* Make the image fill the width of its container */
+  height: auto; /* Maintain the aspect ratio of the image */
+  object-fit: cover; /* Ensure the image covers the area without distortion, may crop */
+  border-radius: 10px; /* Apply rounded corners to the image */
+  margin-bottom: 10px; /* Add some space below the image */
+  border: 1px solid #778899; /* Add a light gray border around the image */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a more pronounced shadow for depth */
+}
+
+/* Style for the show title */
+.title {
+  font-size: 1em; /* Set a base font size */
+  font-weight: bold; /* Make the title text bold */
+  margin-bottom: 5px; /* Add a small space below the title */
+  color: #f0f0f0; /* Set the title text color to a light gray */
+  overflow: hidden; /* Hide any title text that overflows its container */
+  white-space: nowrap; /* Prevent the title from wrapping to the next line */
+  text-overflow: ellipsis; /* Display an ellipsis (...) for text that is overflowed */
+  width: 100%; /* Make the title container fill the width of its parent */
+}
+
+/* Style for the show genres */
+.genres {
+  font-size: 0.8em; /* Set a smaller font size for the genres */
+  color: #a9a9a9; /* Set the genre text color to a darker gray */
+  width: 100%; /* Make the genre container fill the width of its parent */
+  overflow: hidden; /* Hide any genre text that overflows its container */
+  white-space: nowrap; /* Prevent the genre text from wrapping */
+  text-overflow: ellipsis; /* Display an ellipsis for overflowed genre text */
+}

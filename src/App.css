@@ -1,113 +1,200 @@
+/* Base styles for the body element */
 body {
-  background-color: #121212;
-  font-family: "Open Sans";
-  margin: 0;
-  color: #e0e0e0;
-  line-height: 1.6;
-  padding: 0;
+  background-color: #181818; /* Dark background color */
+  font-family: "Open Sans", sans-serif; /* Use the Open Sans font, with sans-serif as a fallback */
+  margin: 0; /* Remove default body margin */
+  color: #f0f0f0; /* Light gray/white text color for good contrast on the dark background */
+  line-height: 1.6; /* Improve readability by setting a comfortable line height */
+  padding: 0; /* Remove default body padding */
 }
 
+/* Container for main content, provides some padding around the edges */
 .container {
   padding: 20px;
 }
 
+/* Style for the main heading (h1) */
 h1 {
-  color: #2c3e50;
-  text-align: center;
-  margin-bottom: 30px;
+  color: #b047a3; /* A vibrant purple color for the heading */
+  text-align: center; /* Center the heading text */
+  margin-bottom: 30px; /* Add some space below the heading */
 }
 
+/* Style for the navigation bar */
+nav {
+  margin-bottom: 20px; /* Add space below the navigation links */
+}
+
+/* Style for links within the navigation */
+nav a {
+  color: #a9a9a9; /* A medium gray color for the navigation links */
+  text-decoration: none; /* Remove underlines from the links */
+  margin-right: 15px; /* Add some horizontal space between the links */
+}
+
+/* Style for navigation links on hover */
+nav a:hover {
+  color: #b047a3; /* Change the link color to the vibrant purple on hover */
+}
+
+/* Style for the loading indicator */
+.loading {
+  color: #a9a9a9; /* Medium gray color for the loading text */
+  display: flex; /* Use flexbox to center the content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Make the loading screen take up the full viewport height */
+}
+
+/* Style for error messages */
+.error {
+  color: #ff4500; /* A bright orange-red color for error messages */
+  padding: 20px; /* Add padding around the error message */
+}
+
+/* Style for the genre filter section */
+.genre-filter {
+  margin-bottom: 20px;
+}
+
+/* Style for the heading (h3) within the genre filter */
+.genre-filter h3 {
+  color: #b047a3; /* Vibrant purple color for the genre filter heading */
+  margin-top: 10px;
+  margin-top: 10px; /* Duplicate, should likely be removed */
+}
+
+/* Style for labels within the genre filter */
+.genre-filter label {
+  color: #a9a9a9; /* Medium gray color for the genre filter labels */
+  display: inline-block; /* Allows labels to be on the same line as checkboxes/radio buttons */
+  margin-bottom: 5px;
+  margin-right: 15px;
+}
+
+/* Style for secondary headings (h2) */
 h2 {
-  color: #3498db;
+  color: #778899; /* A light slate gray color for secondary headings */
   margin-top: 20px;
   margin-bottom: 15px;
 }
 
+/* Style for unordered lists */
 ul {
-  list-style: none;
-  padding: 0;
+  list-style: none; /* Remove default bullet points */
+  padding: 0; /* Remove default list padding */
 }
 
+/* Style for list items */
 li {
-  margin-bottom: 15px;
-  background-color: #ecf0f1;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease-in-out;
+  margin-bottom: 15px; /* Add space below each list item */
+  background-color: #ecf0f1; /* A very light gray background for list items */
+  border-radius: 6px; /* Apply rounded corners to list items */
+  overflow: hidden; /* Hide any content that might overflow the rounded corners */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow for a slight lift effect */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for hover effects */
 }
 
+/* Style for list items on hover */
 li:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(
+    -2px
+  ); /* Move the list item slightly upwards on hover */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow on hover */
 }
 
+/* Style for regular links */
 a {
-  display: block;
-  padding: 15px;
-  text-decoration: none;
-  color: #333;
+  display: block; /* Make the entire list item clickable */
+  text-decoration: none; /* Remove underlines from links */
+  color: #333; /* Dark gray text color for links */
 }
 
+/* Style for links on hover */
 a:hover {
-  background-color: #d5dbdb;
+  background-color: #d5dbdb; /* A slightly darker light gray background on hover */
 }
 
+/* Shared styles for loading and error messages */
 .loading,
 .error {
   padding: 15px;
   margin-top: 20px;
-  border: 1px solid #bdc3c7;
-  background-color: #e0e0e0;
+  border: 1px solid #bdc3c7; /* Light gray border */
+  background-color: #e0e0e0; /* Light gray background */
   border-radius: 6px;
   text-align: center;
-  color: #555;
+  color: #555; /* Medium gray text color */
 }
 
-/* Styles for Show Details Page */
+/* Styles specific to the Show Details Page */
 .show-details {
   padding: 20px;
-  position: relative;
+  position: relative; /* Allows for absolute positioning of child elements if needed */
 }
 
+/* Style for the main heading (h2) on the show details page */
 .show-details h2 {
-  color: #e67e22;
+  color: #e67e22; /* A bright orange color for the show title */
 }
 
+/* Style for paragraphs on the show details page */
 .show-details p {
-  color: #555;
-  line-height: 1.8;
+  color: #555; /* Medium gray text color for descriptions */
+  line-height: 1.8; /* Improved line height for readability of descriptions */
 }
 
+/* Style for the heading displaying the season title (e.g., "Season 1") */
+.season-title {
+  color: black; /* Sets the text color to black */
+}
+
+/* Style for the link that wraps the episode information */
+.episode-link {
+  color: black; /* Sets the text color of the link to black */
+  text-decoration: none; /* Removes the default underline from the link */
+}
+
+/* Style for the episode link on hover */
+.episode-link:hover {
+  /* Changes the text color to a purple on hover */
+  color: #b047a3;
+}
+
+/* Container for the fixed audio player at the bottom */
 .audio-player-container {
-  position: fixed;
+  position: fixed; /* Stay fixed at the bottom of the viewport */
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: #f0f0f0;
+  background-color: #f0f0f0; /* Light gray background for the player */
   padding: 10px;
-  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow to separate it from the content */
+  z-index: 1000; /* Ensure it stays on top of other content */
 }
 
+/* Style for the audio element within the player container */
 .audio-player-container audio {
-  width: 100%;
+  width: 100%; /* Make the audio player take the full width */
 }
 
+/* Style for a list item indicating a playing episode (not currently used in provided JS) */
 .playing-episode {
-  background-color: #e0f7fa;
+  background-color: #e0f7fa; /* A very light blue background */
 }
 
+/* Style for the loading spinner animation */
 .loading-spinner {
-  border: 4px solid #f3f3f3; /* Light grey */
-  border-top: 4px solid #3498db; /* Blue */
-  border-radius: 50%;
+  border: 4px solid #f3f3f3; /* Light grey border */
+  border-top: 4px solid #3498db; /* Blue top border, creating the spinning effect */
+  border-radius: 50%; /* Make it a circle */
   width: 50px;
   height: 50px;
-  animation: spin 2s linear infinite;
-  margin: 20px auto; /* Center the spinner */
+  animation: spin 2s linear infinite; /* Apply the spin animation */
+  margin: 20px auto; /* Center the spinner horizontally */
 }
 
+/* Keyframes for the spin animation */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
